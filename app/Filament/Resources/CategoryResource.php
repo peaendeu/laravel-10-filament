@@ -17,6 +17,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Contracts\HasTable;
+use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
@@ -32,7 +33,7 @@ class CategoryResource extends Resource
           TextInput::make('name')
             ->reactive()
             ->afterStateUpdated(function (Closure $set, $state) {
-              $set('slug', \Str::slug($state));
+              $set('slug', Str::slug($state));
             })->required(),
           TextInput::make('slug')->required(),
         ]),
@@ -44,7 +45,7 @@ class CategoryResource extends Resource
     return $table
       ->columns([
         // TextColumn::make('id'),
-        TextColumn::make('index')->getStateUsing(
+        TextColumn::make('no')->getStateUsing(
           static function ($rowLoop, HasTable $livewire): string {
             return (string) (
               $rowLoop->iteration +
